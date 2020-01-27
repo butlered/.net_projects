@@ -26,14 +26,14 @@ namespace RomanNumeralKata
         };
         static void Main(string[] args)
         {
-            
+
             Console.WriteLine("Enter a number for conversion. Arabic numbers will be converted to Roman numerals. Roman numerals will be converted to Arabic numbers.\nYour Input:");
             var input = Console.ReadLine();
             var intInput = int.MinValue;
-            if(int.TryParse(input, out intInput))
+            if (int.TryParse(input, out intInput))
             {
                 var stringResult = ArabicToRoman(intInput);
-                if(stringResult != string.Empty)
+                if (stringResult != string.Empty)
                 {
                     Console.WriteLine($"{intInput} in Roman numerals is {stringResult}");
                 }
@@ -41,11 +41,11 @@ namespace RomanNumeralKata
                 {
                     Console.WriteLine("Invalid input. Please try again.");
                 }
-            } 
+            }
             else
             {
                 var intResult = RomanToArabic(input);
-                if(intResult != 0)
+                if (intResult != 0)
                 {
                     Console.WriteLine($"{intInput} in Roman numerals is {intResult}");
                 }
@@ -59,14 +59,67 @@ namespace RomanNumeralKata
         }
         public static int RomanToArabic(string romanInput)
         {
-            var retVal = numerals.FirstOrDefault(n => n.Value == romanInput).Key;
+            var retVal = 0;
+            for (int i = (romanInput.Length - 1); i >= 0; i--)
+            {
+                var current = romanInput[i];
+                if (i > 0)
+                {
+                    //Check the character immediately preceding the current one, and adjust the total value accordingly.
+                    //If the value is adjusted, decrement the counter so that the preceding character is not processed.
+                    var prev = romanInput[i - 1];
+                    switch(current)
+                    {
+                        case 'V':
+                            if (prev == 'I')
+                            {
+                                retVal -= 1;
+                                i--;
+                            }
+                            break;
+                        case 'I':
+                            if (prev == 'V')
+                            {
+                                retVal -= 1;
+                                i--;
+                            }
+                            break;
+                        case 'X':
+                            if (prev == 'I')
+                            {
+                                retVal -= 1;
+                                i--;
+                            }
+                            break;
+                        case 'L':
+                        case 'C':
+                            if (prev == 'X')
+                            {
+                                retVal -= 10;
+                                i--;
+                            }
+                            break;
+                        case 'D':
+                        case 'M':
+                            if (prev == 'C')
+                            {
+                                retVal -= 100;
+                                i--;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                retVal += numerals.FirstOrDefault(x => x.Value == current.ToString()).Key;
+            }
             return retVal;
         }
 
         public static string ArabicToRoman(int arabicInput)
         {
             var retVal = string.Empty;
-            foreach(var key in numerals.Keys)
+            foreach (var key in numerals.Keys)
             {
                 //Start with the highest number in the numerals list that can be subtracted from the input
                 //and continue until the remaining value of the input falls below that of the 
