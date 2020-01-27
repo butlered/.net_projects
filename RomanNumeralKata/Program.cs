@@ -6,6 +6,7 @@ namespace RomanNumeralKata
 {
     public class Program
     {
+        //Initial list of Roman numerals and their Arabic equivalents.
         static Dictionary<int, string> numerals = new Dictionary<int, string>
         {
             { 1000, "M" },
@@ -40,8 +41,6 @@ namespace RomanNumeralKata
                 {
                     Console.WriteLine("Invalid input. Please try again.");
                 }
-                
-                Console.ReadKey();
             } 
             else
             {
@@ -54,10 +53,8 @@ namespace RomanNumeralKata
                 {
                     Console.WriteLine("Invalid input. Please try again.");
                 }
-                
-                Console.ReadKey();
             }
-            
+            Console.ReadKey();
 
         }
         public static int RomanToArabic(string romanInput)
@@ -68,7 +65,20 @@ namespace RomanNumeralKata
 
         public static string ArabicToRoman(int arabicInput)
         {
-            var retVal = numerals[arabicInput];
+            var retVal = string.Empty;
+            foreach(var key in numerals.Keys)
+            {
+                //Start with the highest number in the numerals list that can be subtracted from the input
+                //and continue until the remaining value of the input falls below that of the 
+                //selected key, then repeat the process with the remainder until we reach the end of the list
+                while (arabicInput >= key)
+                {
+                    //Concatenate the corresponding Roman numeral to the return value
+                    //and reduce the input by the amount contained in the key
+                    retVal += numerals[key];
+                    arabicInput -= key;
+                }
+            }
             return retVal;
         }
     }

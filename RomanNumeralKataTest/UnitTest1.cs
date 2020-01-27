@@ -34,5 +34,11 @@ namespace RomanNumeralKataTest
         {
             Assert.AreEqual(Program.ArabicToRoman(input), expectedValue);
         }
+
+        [TestCase(1024, "MXXIV")]
+        public void ArabicInputThatDoesNotExistInDictionaryIsConvertedCorrectly(int input, string expectedValue)
+        {
+            Assert.AreEqual(Program.ArabicToRoman(input), expectedValue);
+        }
     }
 }
