@@ -80,7 +80,7 @@ namespace RomanNumeralKata
                         case 'I':
                             if (prev == 'V')
                             {
-                                retVal -= 1;
+                                retVal += 5;
                                 i--;
                             }
                             break;
