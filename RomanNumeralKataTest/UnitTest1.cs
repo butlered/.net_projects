@@ -1,20 +1,25 @@
 using NUnit.Framework;
 using RomanNumeralKata;
+using RomanNumeralKata.Services;
+
 namespace RomanNumeralKataTest
 {
     [TestFixture]
     public class Tests
     {
+        ArabicNumeralConverterService arabicConverter = new ArabicNumeralConverterService();
+        RomanNumeralConverterService romanConverter = new RomanNumeralConverterService();
+
         [Test]
         public void OneEqualsI()
         {
-            Assert.IsTrue(Program.ArabicToRoman(1) == "I");
+            Assert.IsTrue(arabicConverter.ConvertToRoman(1) == "I");
         }
 
         [Test]
         public void XEqualsTen()
         {
-            Assert.IsTrue(Program.RomanToArabic("X") == 10);
+            Assert.IsTrue(romanConverter.ConvertToArabic("X") == 10);
         }
 
         [TestCase("IV", 4)]
@@ -24,7 +29,7 @@ namespace RomanNumeralKataTest
         [TestCase("M", 1000)]
         public void RomanInputThatExistsInDictionaryIsValid(string input, int expectedValue)
         {
-            Assert.AreEqual(Program.RomanToArabic(input), expectedValue);
+            Assert.AreEqual(romanConverter.ConvertToArabic(input), expectedValue);
         }
 
         [TestCase(5, "V")]
@@ -34,7 +39,7 @@ namespace RomanNumeralKataTest
         [TestCase(500, "D")]
         public void ArabicInputThatExistsInDictionaryIsValid(int input, string expectedValue)
         {
-            Assert.AreEqual(Program.ArabicToRoman(input), expectedValue);
+            Assert.AreEqual(arabicConverter.ConvertToRoman(input), expectedValue);
         }
 
         [TestCase(900, "CM")]
@@ -46,7 +51,7 @@ namespace RomanNumeralKataTest
         [TestCase(1024, "MXXIV")]
         public void ArabicInputThatDoesNotExistInDictionaryIsConvertedCorrectly(int input, string expectedValue)
         {
-            Assert.AreEqual(Program.ArabicToRoman(input), expectedValue);
+            Assert.AreEqual(arabicConverter.ConvertToRoman(input), expectedValue);
         }
 
         [TestCase("CM", 900)]
@@ -58,7 +63,7 @@ namespace RomanNumeralKataTest
         [TestCase("MXXIV", 1024)]
         public void RomanInputThatDoesNotExistInDictionaryIsConvertedCorrectly(string input, int expectedValue)
         {
-            Assert.AreEqual(Program.RomanToArabic(input), expectedValue);
+            Assert.AreEqual(romanConverter.ConvertToArabic(input), expectedValue);
         }
     }
 }
