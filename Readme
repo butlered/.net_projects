@@ -1,0 +1,17 @@
+Roman Numeral Kata
+
+The task here was to write a method that will convert numeric input into Roman numerals, and one that will convert Roman numerals to numeric input.
+
+Unit tests were used to guide the development decisions.
+I have used a console application to better demonstrate some common techniques used in modern .Net development, namely interface abstraction, dependency injection and service oriented architecture.
+I have used a NumeralData class to simulate a data store.
+I believe this application satisfies the brief and demonstrates my understanding of architecture and implementation in .NET. 
+
+Further improvements that could be made:
+- The data layer could be abstracted further behind an INumericData interface and possibly a repository layer. This would facilitate easier mocking of the data layer for integration tests.
+- More robust and thorough exception handling could be introduced, not just at the user interface layer but also in the services.
+- Logging could be introduced through the DI ServiceProvider.
+
+
+
+
