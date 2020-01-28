@@ -8,7 +8,17 @@ namespace RomanNumeralKata.Data
     //Class used to simulate data store
     public class NumeralData
     {
-        public static Dictionary<int, string> Numerals = new Dictionary<int, string>
+        public static Dictionary<char, int> RomanData = new Dictionary<char, int>()
+        {
+            {'I', 1},
+            {'V', 5},
+            {'X', 10},
+            {'L', 50},
+            {'C', 100},
+            {'D', 500},
+            {'M', 1000}
+        };
+        public static Dictionary<int, string> ArabicData = new Dictionary<int, string>()
         {
             { 1000, "M" },
             { 900, "CM" },
@@ -20,32 +30,9 @@ namespace RomanNumeralKata.Data
             { 40, "XL" },
             { 10, "X" },
             { 9, "IX" },
-            { 6, "VI" },
             { 5, "V" },
             { 4, "IV" },
-            { 1, "I" }
-        };
-
-        public static Dictionary<char, char> PreviousValues = new Dictionary<char, char>
-        {
-            { 'V', 'I' },
-            { 'I', 'V' },
-            { 'X', 'I' },
-            { 'L', 'X' },
-            { 'C', 'X' },
-            { 'D', 'C' },
-            { 'M', 'C' }
-        };
-
-        public static Dictionary<string, int> AmountsToAdjust = new Dictionary<string, int>
-        {
-            { "IV", -1 },
-            { "VI", 5 },
-            { "IX", -1 },
-            { "XL", -10 },
-            { "XC", -10 },
-            { "CD", -100 },
-            { "CM", -100 }
+            { 1, "I" },
         };
     }
 }

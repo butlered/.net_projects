@@ -12,29 +12,26 @@ namespace RomanNumeralKata.Services
         public int ConvertToArabic(string input)
         {
             //validate input
-            if (!input.Any(s => NumeralData.Numerals.ContainsValue(s.ToString())))
+            if (!input.Any(s => NumeralData.RomanData.ContainsKey(s)))
             {
                 return 0;
             }
+
             var retVal = 0;
 
-            for (int i = (input.Length - 1); i >= 0; i--)
+            for (int i = 0; i < input.Length; i++)
             {
                 var current = input[i];
-                if (i > 0)
+                var next = (i + 1) < input.Length ? input[i + 1] : input[i];
+                //Subtract the value of the current character if the following one has a larger value, or else subtract it.
+                if (i + 1 < input.Length && NumeralData.RomanData[current] < NumeralData.RomanData[next])
                 {
-                    //Check the character immediately preceding the current one, and adjust the total value accordingly.
-                    //If the value is adjusted, decrement the counter so that the preceding character is not processed.
-                    var prev = input[i - 1];
-                    if (NumeralData.PreviousValues.ContainsKey(current) && NumeralData.PreviousValues[current] == prev)
-                    {
-                        var key = prev.ToString() + current.ToString();
-                        var valueToAdjust = NumeralData.AmountsToAdjust[key];
-                        retVal += valueToAdjust;
-                        i--;
-                    }
+                    retVal -= NumeralData.RomanData[current];
                 }
-                retVal += NumeralData.Numerals.FirstOrDefault(x => x.Value == current.ToString()).Key;
+                else
+                {
+                    retVal += NumeralData.RomanData[current];
+                }
             }
             return retVal;
         }
