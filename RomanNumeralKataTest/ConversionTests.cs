@@ -1,5 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using RomanNumeralKata;
+using RomanNumeralKata.Interfaces;
 using RomanNumeralKata.Services;
 
 namespace RomanNumeralKataTest
@@ -7,8 +9,24 @@ namespace RomanNumeralKataTest
     [TestFixture]
     public class Tests
     {
-        ArabicNumeralConverterService arabicConverter = new ArabicNumeralConverterService();
-        RomanNumeralConverterService romanConverter = new RomanNumeralConverterService();
+        IRomanNumeralConverterService romanConverter;
+        IArabicNumeralConverterService arabicConverter;
+        ServiceProvider serviceProvider;
+
+
+        [SetUp]
+        public void Init()
+        {
+            serviceProvider = new ServiceCollection()
+                 .AddSingleton<IRomanNumeralConverterService, RomanNumeralConverterService>()
+                 .AddSingleton<IArabicNumeralConverterService, ArabicNumeralConverterService>()
+                 .BuildServiceProvider();
+
+            romanConverter = serviceProvider.GetService<IRomanNumeralConverterService>();
+            arabicConverter = serviceProvider.GetService<IArabicNumeralConverterService>();
+        }
+        
+        
 
         [Test]
         public void OneEqualsI()

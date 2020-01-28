@@ -1,15 +1,16 @@
 ﻿using RomanNumeralKata.Data;
+using RomanNumeralKata.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RomanNumeralKata.Services
 {
-    public class ArabicNumeralConverterService
+    public class ArabicNumeralConverterService : IArabicNumeralConverterService
     {
         public string ConvertToRoman(int input)
         {
-            var retVal = string.Empty;
+            var retVal = new StringBuilder();
             foreach (var key in NumeralData.Numerals.Keys)
             {
                 //Start with the highest number in the numerals list that can be subtracted from the input
@@ -19,11 +20,11 @@ namespace RomanNumeralKata.Services
                 {
                     //Concatenate the corresponding Roman numeral to the return value
                     //and reduce the input by the amount contained in the key
-                    retVal += NumeralData.Numerals[key];
+                    retVal.Append(NumeralData.Numerals[key]);
                     input -= key;
                 }
             }
-            return retVal;
+            return retVal.ToString();
         }
     }
 }
