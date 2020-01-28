@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using RomanNumeralKata;
 using RomanNumeralKata.Interfaces;
 using RomanNumeralKata.Services;
 
@@ -24,9 +23,7 @@ namespace RomanNumeralKataTest
 
             romanConverter = serviceProvider.GetService<IRomanNumeralConverterService>();
             arabicConverter = serviceProvider.GetService<IArabicNumeralConverterService>();
-        }
-        
-        
+        }        
 
         [Test]
         public void OneEqualsI()
@@ -40,6 +37,8 @@ namespace RomanNumeralKataTest
             Assert.IsTrue(romanConverter.ConvertToArabic("X") == 10);
         }
 
+        [TestCase("L", 50)]
+        [TestCase("D", 500)]
         [TestCase("IV", 4)]
         [TestCase("IX", 9)]
         [TestCase("X", 10)]
@@ -50,11 +49,19 @@ namespace RomanNumeralKataTest
             Assert.AreEqual(romanConverter.ConvertToArabic(input), expectedValue);
         }
 
-        [TestCase(5, "V")]
-        [TestCase(6, "VI")]
-        [TestCase(40, "XL")]
-        [TestCase(90, "XC")]
+        [TestCase(1000, "M")]
+        [TestCase(900, "CM")]
         [TestCase(500, "D")]
+        [TestCase(400, "CD")]
+        [TestCase(100, "C")]
+        [TestCase(90, "XC")]
+        [TestCase(50, "L")]
+        [TestCase(40, "XL")]
+        [TestCase(10, "X")]
+        [TestCase(9, "IX")]
+        [TestCase(5, "V")]
+        [TestCase(4, "IV")]
+        [TestCase(1, "I")]
         public void ArabicInputThatExistsInDictionaryIsValid(int input, string expectedValue)
         {
             Assert.AreEqual(arabicConverter.ConvertToRoman(input), expectedValue);
@@ -72,6 +79,7 @@ namespace RomanNumeralKataTest
             Assert.AreEqual(arabicConverter.ConvertToRoman(input), expectedValue);
         }
 
+        [TestCase("MCMXCIX", 1999)]
         [TestCase("CM", 900)]
         [TestCase("MMMCD", 3400)]
         [TestCase("MCXC", 1190)]
@@ -82,6 +90,13 @@ namespace RomanNumeralKataTest
         public void RomanInputThatDoesNotExistInDictionaryIsConvertedCorrectly(string input, int expectedValue)
         {
             Assert.AreEqual(romanConverter.ConvertToArabic(input), expectedValue);
+        }
+
+        [TestCase("Angela", 765)]
+        public void InvalidRomanInputIsRejected(string input, int expectedValue)
+        {
+            Assert.AreNotEqual(romanConverter.ConvertToArabic(input), expectedValue);
+            Assert.AreEqual(romanConverter.ConvertToArabic(input), 0);
         }
     }
 }

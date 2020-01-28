@@ -1,9 +1,6 @@
 ﻿using RomanNumeralKata.Data;
 using RomanNumeralKata.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace RomanNumeralKata.Services
 {
@@ -23,7 +20,7 @@ namespace RomanNumeralKata.Services
             {
                 var current = input[i];
                 var next = (i + 1) < input.Length ? input[i + 1] : input[i];
-                //Subtract the value of the current character if the following one has a larger value, or else subtract it.
+                //Subtract the value of the current character from the return value if the following one has a larger value, or else add it.
                 if (i + 1 < input.Length && NumeralData.RomanData[current] < NumeralData.RomanData[next])
                 {
                     retVal -= NumeralData.RomanData[current];
