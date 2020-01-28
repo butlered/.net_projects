@@ -26,39 +26,55 @@ namespace RomanNumeralKata
             Console.CancelKeyPress += new ConsoleCancelEventHandler(HandleClose);
             while(true)
             {
-                Console.WriteLine("\nEnter a number for conversion. " +
+                Console.WriteLine("Enter a number for conversion. " +
                     "Arabic numbers will be converted to Roman numerals. " +
                     "Roman numerals will be converted to Arabic numbers. " +
-                    "Press CTRL + C to exit.\n" +
+                    "Press CTRL + C to exit.\n\n" +
                     "Your Input:");
 
                 var input = Console.ReadLine();
 
                 if (int.TryParse(input, out var intInput))
                 {
-                    _arabicService = serviceProvider.GetService<IArabicNumeralConverterService>();
-                    var stringResult = _arabicService.ConvertToRoman(intInput);
-                    if (stringResult != string.Empty)
-                    {
-                        Console.WriteLine($"{intInput} in Roman numerals is {stringResult}");
+                    try
+                    { 
+                        _arabicService = serviceProvider.GetService<IArabicNumeralConverterService>();
+                        var stringResult = _arabicService.ConvertToRoman(intInput);
+                        if (stringResult != string.Empty)
+                        {
+                            Console.WriteLine($"{intInput} in Roman numerals is {stringResult}\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please try again.\n");
+                        }
                     }
-                    else
+                    catch(Exception ex)
                     {
-                        Console.WriteLine("Invalid input. Please try again.");
+                        Console.WriteLine($"An exception occurred while processing your input. Please see below for information:\n{ex.Message}");
                     }
+                    
                 }
                 else
                 {
-                    _romanService = serviceProvider.GetService<IRomanNumeralConverterService>();
-                    var intResult = _romanService.ConvertToArabic(input.ToUpper());
-                    if (intResult != 0)
+                    try
                     {
-                        Console.WriteLine($"{input} in Arabic numerals is {intResult}");
+                        _romanService = serviceProvider.GetService<IRomanNumeralConverterService>();
+                        var intResult = _romanService.ConvertToArabic(input.ToUpper());
+                        if (intResult != 0)
+                        {
+                            Console.WriteLine($"{input} in Arabic numerals is {intResult}\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please try again.\n");
+                        }
                     }
-                    else
+                    catch(Exception ex)
                     {
-                        Console.WriteLine("Invalid input. Please try again.");
+                        Console.WriteLine($"An exception occurred while processing your input. Please see below for information:\n{ex.Message}");
                     }
+                    
                 }
                 Console.WriteLine("Press any key to continue, or CTRL + C to exit.");
                 Console.ReadKey();

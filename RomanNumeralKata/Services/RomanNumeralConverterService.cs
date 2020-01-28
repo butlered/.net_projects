@@ -12,7 +12,7 @@ namespace RomanNumeralKata.Services
         public int ConvertToArabic(string input)
         {
             //validate input
-            if (!input.Any(s => NumeralData.RomanData.ContainsKey(s)))
+            if (!input.All(s => NumeralData.RomanData.ContainsKey(s)))
             {
                 return 0;
             }
